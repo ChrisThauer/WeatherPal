@@ -5,9 +5,9 @@ import WeatherDetails from '../weather-details/weather-details';
 
 import './wrapper.css';
 
-const Wrapper = ({ data }) => (
+const Wrapper = ({ data, getCityData }) => (
   <div className="wrapper">
-    <HeaderBar />
+    <HeaderBar getCityData={getCityData} />
     {
       data
         ? <WeatherDetails data={data} />
