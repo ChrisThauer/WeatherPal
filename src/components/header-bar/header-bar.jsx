@@ -13,7 +13,9 @@ class HeaderBar extends React.Component {
     this.setState({ city: event.target.value})
   }
 
-  onGetCityData = () => {
+  // When the form submits, the current weather data for submitted city will be retrieved
+  onFormSubmit = event => {
+    event.preventDefault();
     this.props.getCityData(this.state.city);
     this.setState({ city: '' });
   }
@@ -22,12 +24,12 @@ class HeaderBar extends React.Component {
     return (
       <div className="header-bar">
         <h1 className="logo">WeatherPal</h1>
-        <div className="search-bar">
+        <form className="search-bar" onSubmit={this.onFormSubmit}>
           <input className="search-input" placeholder="Search city" onChange={this.onChange} value={this.state.city} />
-          <div className="search-btn" onClick={this.onGetCityData} >
+          <button className="search-btn" type="submit">
             <FontAwesomeIcon icon={faSearch} />
-          </div>
-        </div>
+          </button>
+        </form>
       </div>
     )    
   }

@@ -28,7 +28,7 @@
   height: 30px;
   background-color: #dfdfdf;
   text-align: center;
-  padding-top: 6px;
+  border: none;
 }
 
 .search-btn:hover {
