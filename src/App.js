@@ -8,7 +8,8 @@ const API_KEY = '15da7a0e034c3b70a9ee8b3924f68fbf';
 
 class App extends React.Component {
   state = {
-    weatherData: null
+    weatherData: null,
+    cityError: false
   }
 
   componentDidMount() {
@@ -20,7 +21,11 @@ class App extends React.Component {
     const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=imperial`, {mode: 'cors'});
     response.json().then(res => {
       console.log(res);
-      this.setState({weatherData: res});
+      if (res.cod === '404') {
+        this.setState({ cityError: true });
+      } else {
+        this.setState({ weatherData: res, cityError: false });
+      }
     }).catch(err => {
       console.log(err);
     })
@@ -29,7 +34,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Wrapper data={this.state.weatherData} getCityData={this.getWeatherData} />
+        <Wrapper data={this.state.weatherData} getCityData={this.getWeatherData} cityError={this.state.cityError} />
       </div>
     );
   }

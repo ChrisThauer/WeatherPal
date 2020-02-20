@@ -16,8 +16,10 @@ class HeaderBar extends React.Component {
   // When the form submits, the current weather data for submitted city will be retrieved
   onFormSubmit = event => {
     event.preventDefault();
-    this.props.getCityData(this.state.city);
-    this.setState({ city: '' });
+    if (this.state.city !== '') {
+      this.props.getCityData(this.state.city);
+      this.setState({ city: '' });
+    }
   }
 
   render() {
