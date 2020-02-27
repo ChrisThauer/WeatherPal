@@ -9,18 +9,18 @@ const API_KEY = '15da7a0e034c3b70a9ee8b3924f68fbf';
 class App extends React.Component {
   state = {
     weatherData: null,
-    cityError: false
+    city: 'Richmond',
+    cityError: false,
+    units: 'imperial'
   }
 
   componentDidMount() {
-    this.getWeatherData('Richmond');
-    console.log(this.state)
+    this.getWeatherData();
   }
 
-  getWeatherData = async (city) => {
-    const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=imperial`, {mode: 'cors'});
+  getWeatherData = async () => {
+    const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.city}&appid=${API_KEY}&units=${this.state.units}`, {mode: 'cors'});
     response.json().then(res => {
-      console.log(res);
       if (res.cod === '404') {
         this.setState({ cityError: true });
       } else {
@@ -31,10 +31,28 @@ class App extends React.Component {
     })
   }
 
+  onChangeCity = (city) => {
+    this.setState({ city }, () => {
+      this.getWeatherData();
+    })
+  }
+
+  onChangeUnits = (units) => {
+    this.setState({ units }, () => {
+      this.getWeatherData()
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        <Wrapper data={this.state.weatherData} getCityData={this.getWeatherData} cityError={this.state.cityError} />
+        <Wrapper 
+          data={this.state.weatherData}
+          cityError={this.state.cityError} 
+          units={this.state.units}
+          onChangeCity={this.onChangeCity}
+          onChangeUnits={this.onChangeUnits}
+        />
       </div>
     );
   }

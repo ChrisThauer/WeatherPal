@@ -1,6 +1,13 @@
 .wrapper {
   width: 800px;
-  height: 600px;
+  height: 500px;
   margin: 100px auto;
   background-color: #fff8ef;
+}
+
+.weather-content {
+  height: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }

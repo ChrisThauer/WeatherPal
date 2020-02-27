@@ -17,7 +17,7 @@ class HeaderBar extends React.Component {
   onFormSubmit = event => {
     event.preventDefault();
     if (this.state.city !== '') {
-      this.props.getCityData(this.state.city);
+      this.props.onChangeCity(this.state.city);
       this.setState({ city: '' });
     }
   }

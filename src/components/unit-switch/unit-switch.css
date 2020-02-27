@@ -1,0 +1,25 @@
+.unit-switch {
+  width: 80px;
+  position: absolute;
+  margin: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.toggle {
+  background-color: #2b2b2b;
+  color: white;
+  flex-grow: 1;
+  text-align: center;
+  border-radius: 2px;
+  border: 1px solid black;
+  padding: 3px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.selected {
+  background-color: #3580f0;
+  transform: scale(1.1);
+  transition: transform ease-in 0.1s;
+}

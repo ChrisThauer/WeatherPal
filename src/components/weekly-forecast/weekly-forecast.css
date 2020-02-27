@@ -1,0 +1,7 @@
+.weekly-forecast {
+  width: 100%;
+  height: 200px;
+  background-color: blue;
+  display: flex;
+  justify-content: space-between;
+}

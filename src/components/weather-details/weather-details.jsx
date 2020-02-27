@@ -2,7 +2,7 @@ import React from 'react';
 
 import './weather-details.css';
 
-const WeatherDetails = ({ data }) => {
+const WeatherDetails = ({ data, units }) => {
   const { name, main, weather, wind } = data;
   const currentTemp = Math.round(main.temp);
   const feelsLike = Math.round(main.feels_like);
@@ -11,6 +11,10 @@ const WeatherDetails = ({ data }) => {
   const windSpeed = Math.round(wind.speed);
   const windDeg= wind.deg;
   let windDirection = '';
+
+  // Set units
+  const tempUnits = units === 'imperial' ? 'F' : 'C';
+  const windUnits = units === 'imperial' ? 'mph' : 'm/s';
 
   // Determine the direction the wind is blowing by using windDeg
   if (windDeg > 348.75 || windDeg < 11.25) {
@@ -55,10 +59,10 @@ const WeatherDetails = ({ data }) => {
         <img className="weather-icon" src={imgUrl} alt="icon" />
         <div className="details-block">
           <p className="condition">{weather[0].main}</p>
-          <p className="temp-current">{currentTemp} &#176;F</p>
-          <p className="temp-feels">Feels like {feelsLike} &#176;F</p>
+          <p className="temp-current">{currentTemp} &#176;{tempUnits}</p>
+          <p className="temp-feels">Feels like {feelsLike} &#176;{tempUnits}</p>
           <p className="humidity">Humidity: {humidity}%</p>
-          <p className="wind">Wind: {windDirection} {windSpeed} mph</p>
+          <p className="wind">Wind: {windDirection} {windSpeed} {windUnits}</p>
         </div>
       </div>
     </div>
