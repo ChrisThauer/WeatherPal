@@ -4,27 +4,40 @@ import Wrapper from './components/wrapper/wrapper';
 
 import './App.css';
 
-const API_KEY = '15da7a0e034c3b70a9ee8b3924f68fbf';
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 class App extends React.Component {
   state = {
-    weatherData: null,
+    currentWeatherData: null,
+    weeklyData: null,
     city: 'Richmond',
     cityError: false,
     units: 'imperial'
   }
 
   componentDidMount() {
-    this.getWeatherData();
+    this.getCurrentWeatherData();
+    this.getWeeklyWeatherData();
   }
 
-  getWeatherData = async () => {
+  getCurrentWeatherData = async () => {
     const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${this.state.city}&appid=${API_KEY}&units=${this.state.units}`, {mode: 'cors'});
     response.json().then(res => {
       if (res.cod === '404') {
         this.setState({ cityError: true });
       } else {
-        this.setState({ weatherData: res, cityError: false });
+        this.setState({ currentWeatherData: res, cityError: false });
+      }
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
+  getWeeklyWeatherData = async () => {
+    const response = await fetch(`http://api.openweathermap.org/data/2.5/forecast/daily?q=${this.state.city}&cnt=5&appid=${API_KEY}&units=${this.state.units}`, {mode: 'cors'});
+    response.json().then(res => {
+      if (res.cod !== '404') {
+        this.setState({ weeklyData: res.list, cityError: false });
       }
     }).catch(err => {
       console.log(err);
@@ -33,13 +46,15 @@ class App extends React.Component {
 
   onChangeCity = (city) => {
     this.setState({ city }, () => {
-      this.getWeatherData();
-    })
+      this.getCurrentWeatherData();
+      this.getWeeklyWeatherData();
+    });
   }
 
   onChangeUnits = (units) => {
     this.setState({ units }, () => {
-      this.getWeatherData()
+      this.getCurrentWeatherData();
+      this.getWeeklyWeatherData();
     });
   }
 
@@ -47,7 +62,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <Wrapper 
-          data={this.state.weatherData}
+          currentWeatherData={this.state.currentWeatherData}
+          weeklyData={this.state.weeklyData}
           cityError={this.state.cityError} 
           units={this.state.units}
           onChangeCity={this.onChangeCity}

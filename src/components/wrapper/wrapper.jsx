@@ -8,20 +8,20 @@ import Spinner from '../spinner/spinner';
 import './wrapper.css';
 import UnitSwitch from '../unit-switch/unit-switch';
 
-const Wrapper = ({ data, cityError, units, onChangeUnits, onChangeCity }) => {
+const Wrapper = ({ currentWeatherData, weeklyData, cityError, units, onChangeUnits, onChangeCity }) => {
   const content = cityError ? 
     <p>No city data. Please try again</p> : 
     <div className="weather-content">
-      <WeatherDetails data={data} units={units} />
+      <WeatherDetails data={currentWeatherData} units={units} />
       <UnitSwitch units={units} onChangeUnits={onChangeUnits} />
-      <WeeklyForecast />
+      <WeeklyForecast data={weeklyData} units={units} />
     </div>;
 
   return (
     <div className="wrapper">
       <HeaderBar onChangeCity={onChangeCity} />
       {
-        data
+        currentWeatherData && weeklyData
           ? content
           : <Spinner />
       }
